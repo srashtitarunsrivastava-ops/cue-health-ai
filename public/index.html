@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cue Health AI — Symptom Checker</title>
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Emergency Banner -->
+  <div id="emergency-banner" class="emergency-banner hidden" role="alert">
+    <span class="emergency-icon">🚨</span>
+    <strong>EMERGENCY:</strong> Your symptoms may be life-threatening.
+    <strong>Call emergency services (911 / 112) immediately.</strong>
+    <button onclick="dismissEmergency()" aria-label="Dismiss">✕</button>
+  </div>
+
+  <!-- App Shell -->
+  <div class="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="logo.png" alt="Cue Health" class="sidebar-logo-img" />
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-btn active" onclick="newChat()">
+          <span>＋</span> New Chat
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="callback-btn" onclick="openCallbackModal()">
+          📞 Request Doctor Callback
+        </button>
+        <p class="disclaimer-small">
+          Not a substitute for professional medical advice.
+        </p>
+      </div>
+    </aside>
+
+    <!-- Main Chat Area -->
+    <main class="chat-main">
+      <header class="chat-header">
+        <img src="logo.png" alt="Cue Health" class="header-logo-img" />
+        <span class="header-badge">AI · Not a Doctor</span>
+      </header>
+
+      <!-- Messages -->
+      <div class="messages" id="messages">
+        <!-- Welcome message -->
+        <div class="message assistant">
+          <div class="avatar">🌿</div>
+          <div class="bubble">
+            <p>Hello! I'm your <strong>Cue Health AI</strong> assistant.</p>
+            <p>Describe your symptoms and I'll help you understand possible causes and next steps.</p>
+            <p><em>For emergencies, call 911 immediately.</em></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Typing Indicator -->
+      <div class="typing-indicator hidden" id="typing">
+        <div class="avatar">🌿</div>
+        <div class="bubble typing-bubble">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+
+      <!-- Input Bar -->
+      <div class="input-bar">
+        <textarea
+          id="user-input"
+          placeholder="Describe your symptoms… (e.g. headache for 2 days, mild fever)"
+          rows="1"
+          maxlength="1000"
+          autofocus
+        ></textarea>
+        <button id="send-btn" onclick="sendMessage()" aria-label="Send">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          </svg>
+        </button>
+      </div>
+      <p class="input-disclaimer">
+        This is not a medical diagnosis. Always consult a qualified doctor for proper evaluation.
+      </p>
+    </main>
+  </div>
+
+  <!-- Doctor Callback Modal -->
+  <div class="modal-overlay hidden" id="callback-modal" onclick="closeCallbackModal(event)">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal-close" onclick="openCallbackModal()" aria-label="Close">✕</button>
+      <h2 id="modal-title">📞 Request Doctor Callback</h2>
+      <p>A licensed doctor will call you within <strong>2 hours</strong>.</p>
+      <form id="callback-form" onsubmit="submitCallback(event)">
+        <label for="cb-name">Full Name *</label>
+        <input id="cb-name" type="text" placeholder="Your name" required autocomplete="name" />
+
+        <label for="cb-phone">Phone Number *</label>
+        <input id="cb-phone" type="tel" placeholder="+1 555 000 0000" required autocomplete="tel" />
+
+        <label for="cb-symptoms">Brief Symptoms Summary</label>
+        <textarea id="cb-symptoms" rows="3" placeholder="Optional: summarize your symptoms"></textarea>
+
+        <button type="submit" class="submit-btn" id="cb-submit">Request Callback</button>
+      </form>
+      <div class="callback-success hidden" id="callback-success">
+        <span class="success-icon">✅</span>
+        <p id="callback-message"></p>
+        <p class="request-id" id="request-id"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
